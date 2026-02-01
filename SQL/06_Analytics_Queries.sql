@@ -76,27 +76,6 @@ order by
 ;
 
 
-CREATE VIEW
-	v_daily_revenue AS
-SELECT 
-	order_date,
-    SUM(order_value) as Total_Revenue
-FROM
-	portofolio.e_commerce_clean
-GROUP BY
-	order_date
-;
-
-
-select
-	*
-from
-	v_daily_revenue
-;
-
--- Purpose: Provide daily aggregated revenue for reporting and dashboarding
-
-
 -- ============================================= --
 -- Customer Segmentation Based On Total Spending --
 -- ============================================= --
