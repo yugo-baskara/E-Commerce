@@ -437,3 +437,19 @@ This repository can be used as a reference implementation for:
 - and business-driven data modeling for reporting and BI environments.
 
 ---
+
+## 👤 Author
+
+Y. Baskara
+Linkedin : https://www.linkedin.com/in/yugobaskara/
+
+---
+
+## 📄 Data Source & Attribution
+
+The dataset used in this project was obtained from the public dataset shared by Umut Uygurr.
+
+This project is created strictly for educational and portfolio purposes.
+All data processing, transformation logic, and analytical design are original work by the author.
+
+---
