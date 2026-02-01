@@ -1,3 +1,7 @@
+-- ================ --
+-- Create Raw Table --
+-- ================ --
+
 create table if not exists portofolio.e_commerce_raw
 (Order_ID varchar (20),
 Customer_ID varchar (20),
@@ -19,3 +23,20 @@ Delivery_Time_Days int,
 Customer_Rating int
 )
 ;
+
+
+-- ======================= --
+-- Loading Data Into Table --
+-- ======================= --
+
+load data infile
+	'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/ecommerce_raw.csv'
+into table
+	portofolio.e_commerce_raw
+fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+ignore 1 rows
+;
+
+
