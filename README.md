@@ -11,7 +11,7 @@ Raw layer → Clean / Silver layer → Analytics & Reporting layer
 The main focus of this project is:
 - data quality validation,
 - transformation and standardization,
-- reconciliation between system totals and calculated revenue,
+- reconciliation between source-provided totals and derived revenue,
 - and analytical readiness for downstream BI and dashboards.
 
 All transformations and analyses are implemented directly in SQL to simulate a production-oriented data warehouse environment.
@@ -52,7 +52,7 @@ The architecture separates raw ingestion from analytical processing to:
 The pipeline ingests data from a flat CSV file:
 
 
-Data / ECommerce_raw.csv
+Data/ECommerce_raw.csv
 
 
 The file is loaded using MySQL LOAD DATA INFILE, simulating a batch ingestion process from an external operational system.
@@ -538,7 +538,7 @@ Linkedin : https://www.linkedin.com/in/yugobaskara/
 
 ## 📄 Data Source & Attribution
 
-The dataset used in this project was obtained from the public dataset shared by UmutUygurr.
+The dataset used in this project was obtained from the public Kaggle dataset published by the user UmutUygurr.
 
 This project is created strictly for educational and portfolio purposes.
 All data processing, transformation logic, and analytical design are original work by the author.
