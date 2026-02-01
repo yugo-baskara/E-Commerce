@@ -20,7 +20,7 @@ All transformations and analyses are implemented directly in SQL to simulate a p
 
 ## Architecture Overview
 
-```sql
+```text
 
 CSV File
    │
@@ -49,7 +49,7 @@ The pipeline ingests data from a flat CSV file:
 
 ```sql
 
-E-Commerce / Data / E-Commerce.csv
+Data / ECommerce_raw.csv
 
 ```
 
@@ -170,6 +170,9 @@ as the primary key.
 This design assumes that one row represents one complete order record.
 This assumption is explicitly validated earlier using the raw data profiling step (count(*) vs count(distinct order_id)).
 
+This dataset does not contain explicit order line identifiers.
+For this project, each record is treated as a single order-level transaction as provided by the source dataset.
+
 ---
 
 ## Data Standardization Rules
@@ -191,7 +194,7 @@ The string field is converted into a boolean representation:
 
 ```sql
 
-True = 1
+'true' = 1
 Else = 0
 
 ```
@@ -230,7 +233,7 @@ This ensures that no unexpected row loss or duplication occurred during transfor
 ## Post-Load Data Quality Checks
 After transformation, additional validations are executed on the clean table.
 
-## Value Range Validation
+### Value Range Validation
 Minimum and maximum values are checked for:
 - order value,
 - quantity,
@@ -240,7 +243,7 @@ This confirms that transformations did not introduce abnormal values.
 
 ---
 
-## Financial Reconciliation in Clean Layer
+### Financial Reconciliation in Clean Layer
 A second reconciliation is executed:
 
 ```sql
@@ -438,6 +441,26 @@ This repository can be used as a reference implementation for:
 
 ---
 
+## How to Run This Project
+
+This project is designed to be executed in the following order:
+- Create and load raw table
+   - e_commerce_raw
+- Run raw data profiling and validation queries
+- Create clean table
+   - e_commerce_clean
+- Load transformed data into clean table
+- Run post-load data quality and reconciliation checks
+- Create indexes and integrity constraints
+- Create reporting views
+- Run analytical queries
+
+When using LOAD DATA INFILE, make sure that:
+- the MySQL server variable secure_file_priv allows access to the CSV directory,
+- and the dataset file is placed in the permitted directory.
+
+---
+
 ## 👤 Author
 
 Y. Baskara
@@ -447,7 +470,7 @@ Linkedin : https://www.linkedin.com/in/yugobaskara/
 
 ## 📄 Data Source & Attribution
 
-The dataset used in this project was obtained from the public dataset shared by Umut Uygurr.
+The dataset used in this project was obtained from the public dataset shared by UmutUygurr.
 
 This project is created strictly for educational and portfolio purposes.
 All data processing, transformation logic, and analytical design are original work by the author.
