@@ -27,14 +27,14 @@ group by
 
 select
 	device_type,
-    count(*) as Total_User,
+    count(*) as Total_Orders,
     sum(Order_Value) as Total_Revenue
 from
 	portofolio.e_commerce_clean
 group by
 	Device_Type
 order by
-	Total_User desc
+	Total_Orders desc
 ;
 
 
@@ -76,10 +76,16 @@ order by
 ;
 
 
-CREATE VIEW v_daily_revenue AS
-SELECT order_date, SUM(order_value)
-FROM portofolio.e_commerce_clean
-GROUP BY order_date;
+CREATE VIEW
+	v_daily_revenue AS
+SELECT 
+	order_date,
+    SUM(order_value) as Total_Revenue
+FROM
+	portofolio.e_commerce_clean
+GROUP BY
+	order_date
+;
 
 
 select
@@ -154,24 +160,3 @@ order by
 	Total_Selling desc
 ;
 
-
--- ===================== --
--- Key Performance Index --
--- ===================== --
-
-create view v_kpi_summary as
-select
-	count(*) as total_orders,
-    sum(order_value) as total_revenue,
-    avg(order_value) as avg_order_value
-from
-	portofolio.e_commerce_clean
-;
-
-select
-	*
-from
-	v_kpi_summary
-;
-
--- Purpose: Provide high-level business KPIs for executive reporting
