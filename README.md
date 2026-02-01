@@ -16,7 +16,9 @@ The main focus of this project is:
 
 All transformations and analyses are implemented directly in SQL to simulate a production-oriented data warehouse environment.
 
+
 ---
+
 
 ## Architecture Overview
 
@@ -42,20 +44,24 @@ The architecture separates raw ingestion from analytical processing to:
 - enable data validation and reconciliation,
 - and reduce the risk of propagating corrupted or inconsistent data into reports.
 
+
 ---
+
 
 ## Data Source
 The pipeline ingests data from a flat CSV file:
 
-```sql
 
 Data / ECommerce_raw.csv
 
-```
 
 The file is loaded using MySQL LOAD DATA INFILE, simulating a batch ingestion process from an external operational system.
 
+The ingestion process assumes a trusted local file system and does not cover cloud object storage or streaming ingestion.
+
+
 ---
+
 
 ## Raw Layer – Data Ingestion
 Table: portofolio.e_commerce_raw
@@ -75,7 +81,9 @@ The goal of this layer is:
 - to retain the original values,
 - and to serve as a reference point for validation and reconciliation.
 
+
 ---
+
 
 ## Ingestion Mechanism
 
@@ -86,7 +94,9 @@ The CSV file is ingested using:
 
 This simulates a typical batch ingestion scenario from file-based data exchange.
 
+
 ---
+
 
 ## Initial Data Profiling
 
@@ -102,7 +112,9 @@ This step validates the granularity of the dataset and helps detect:
 - unexpected row inflation,
 - or potential multi-line order structures.
 
+
 ---
+
 
 ## Numerical Range Validation
 
@@ -117,7 +129,9 @@ This provides early detection of:
 - corrupted numeric fields,
 - and potential data entry errors.
 
+
 ---
+
 
 ## Financial Consistency Check in Raw Data
 
@@ -139,7 +153,9 @@ This step is critical to detect inconsistencies between:
 
 This validation is performed before any transformation to ensure that data quality issues are not introduced by the transformation layer.
 
+
 ---
+
 
 ## Clean Layer – Standardization & Transformation
 
@@ -154,7 +170,9 @@ It enforces:
 
 This table represents the curated analytical dataset.
 
+
 ---
+
 
 ## Primary Key Strategy
 
@@ -173,7 +191,11 @@ This assumption is explicitly validated earlier using the raw data profiling ste
 This dataset does not contain explicit order line identifiers.
 For this project, each record is treated as a single order-level transaction as provided by the source dataset.
 
+If the source system later introduces multiple product rows per order, this model would require a separate order header and order line table design.
+
+
 ---
+
 
 ## Data Standardization Rules
 
@@ -194,8 +216,8 @@ The string field is converted into a boolean representation:
 
 ```sql
 
-'true' = 1
-Else = 0
+'true' → 1
+else   → 0
 
 ```
 
@@ -204,7 +226,9 @@ Customer Rating
 Only ratings between 1 and 5 are accepted.
 Invalid values are converted to NULL.
 
+
 ---
+
 
 ## Derived Metric – Order Value
 
@@ -218,7 +242,9 @@ Order_Value = Unit_Price × Quantity – Discount_Amount
 
 This represents the net revenue per order and becomes the main financial measure used in all analytical queries.
 
+
 ---
+
 
 ## Clean Load Validation
 
@@ -228,7 +254,9 @@ After loading the clean table, the pipeline compares:
 
 This ensures that no unexpected row loss or duplication occurred during transformation.
 
+
 ---
+
 
 ## Post-Load Data Quality Checks
 After transformation, additional validations are executed on the clean table.
@@ -241,7 +269,9 @@ Minimum and maximum values are checked for:
 
 This confirms that transformations did not introduce abnormal values.
 
+
 ---
+
 
 ### Financial Reconciliation in Clean Layer
 A second reconciliation is executed:
@@ -259,7 +289,9 @@ This step acts as a control mechanism to:
 - detect discount or pricing anomalies,
 - and flag potential upstream system issues.
 
+
 ---
+
 
 ## Physical Optimization
 
@@ -275,7 +307,9 @@ Indexed columns:
 
 These indexes are aligned with the grouping and filtering patterns used in the analytical queries and reporting views.
 
+
 ---
+
 
 ## Data Integrity Constraint
 
@@ -289,13 +323,17 @@ Customer_Rating must be between 1 and 5 or NULL
 
 This protects the clean analytical table from future invalid inserts and ensures long-term data quality stability.
 
+
 ---
+
 
 ## Analytical Layer – Business Use Cases
 
 All analytical queries operate exclusively on the clean table.
 
+
 ---
+
 
 ## 1. Returning Customer Spending Behaviour
 
@@ -310,7 +348,9 @@ The query calculates:
 grouped by the returning-customer flag.
 This supports customer loyalty analysis and retention strategy evaluation.
 
+
 ---
+
 
 ## 2. Platform Performance by Device Type
 
@@ -324,7 +364,9 @@ The query aggregates:
 
 This supports product and marketing optimization across platforms.
 
+
 ---
+
 
 ## 3. Delivery Time vs Customer Rating
 
@@ -334,7 +376,9 @@ Is there a relationship between delivery time and customer satisfaction?
 The query computes average customer rating for each delivery time bucket.
 This supports logistics performance monitoring and service-level improvement initiatives.
 
+
 ---
+
 
 ## 4. Daily Revenue Trend
 
@@ -343,7 +387,9 @@ Which dates generate the highest total revenue?
 
 Revenue is aggregated by order date.
 
+
 ---
+
 
 View: v_daily_revenue
 
@@ -351,7 +397,9 @@ This view provides a reusable daily revenue dataset for dashboards and scheduled
 
 It acts as a reporting-ready abstraction over the clean table.
 
+
 ---
+
 
 ## 5. Customer Segmentation by Total Spending
 
@@ -367,7 +415,9 @@ based on cumulative order value.
 
 This segmentation supports loyalty programs, targeted campaigns, and CRM prioritization.
 
+
 ---
+
 
 ## 6. Revenue Ranking by City
 
@@ -378,7 +428,9 @@ The query aggregates total revenue by city and applies a window function to prod
 
 This supports geographic performance monitoring and market expansion planning.
 
+
 ---
+
 
 ## 7. Best Selling Product Categories
 
@@ -389,7 +441,9 @@ The query aggregates revenue per product category to identify top-performing pro
 
 This supports merchandising and inventory strategy.
 
+
 ---
+
 
 ## Executive Reporting Layer
 
@@ -402,7 +456,9 @@ This view provides high-level business KPIs:
 
 The view is designed to serve as a lightweight data source for executive dashboards and management reporting.
 
+
 ---
+
 
 ## Key Engineering Characteristics
 
@@ -415,7 +471,9 @@ The view is designed to serve as a lightweight data source for executive dashboa
 - physical optimization using indexes,
 - and reusable reporting views.
 
+
 ---
+
 
 ## Assumptions and Scope
 
@@ -424,13 +482,17 @@ The view is designed to serve as a lightweight data source for executive dashboa
 - The dataset is processed in batch mode.
 - The project focuses on analytical readiness and data quality controls rather than transactional system design.
 
+
 ---
+
 
 ## Technology Stack
 - MySQL 8.x
 - SQL (DDL, DML, window functions, views, constraints, indexing)
 
+
 ---
+
 
 ## Intended Usage
 
@@ -439,7 +501,9 @@ This repository can be used as a reference implementation for:
 - SQL-based data quality pipelines,
 - and business-driven data modeling for reporting and BI environments.
 
+
 ---
+
 
 ## How to Run This Project
 
@@ -458,8 +522,11 @@ This project is designed to be executed in the following order:
 When using LOAD DATA INFILE, make sure that:
 - the MySQL server variable secure_file_priv allows access to the CSV directory,
 - and the dataset file is placed in the permitted directory.
+- the MySQL client uses the same server instance where the file is accessible (server-side LOAD DATA INFILE).
+
 
 ---
+
 
 ## 👤 Author
 
@@ -468,11 +535,13 @@ Linkedin : https://www.linkedin.com/in/yugobaskara/
 
 ---
 
+
 ## 📄 Data Source & Attribution
 
 The dataset used in this project was obtained from the public dataset shared by UmutUygurr.
 
 This project is created strictly for educational and portfolio purposes.
 All data processing, transformation logic, and analytical design are original work by the author.
+
 
 ---
