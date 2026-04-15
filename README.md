@@ -539,6 +539,9 @@ When using LOAD DATA INFILE, make sure that:
 Y. Baskara
 Linkedin : https://www.linkedin.com/in/yugobaskara/
 
+Auditor | Data Analyst | SQL | Data Engineering Enthusiast
+
+
 ---
 
 
