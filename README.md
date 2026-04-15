@@ -434,14 +434,12 @@ This supports merchandising and inventory strategy.
 
 ---
 
-
 ## Key Business Insights ⭐
 
-- Revenue peak terjadi pada bulan X → kemungkinan dipengaruhi campaign
-- Returning customer memiliki AOV lebih tinggi → fokus retention
-- Mobile mendominasi transaksi → optimasi mobile UX penting
-- Delivery time > X hari menurunkan rating → perlu optimasi logistik
-
+- Revenue peaks occur during specific months, likely driven by marketing campaigns or promotional activities.
+- Returning customers demonstrate higher Average Order Value (AOV), indicating strong potential for retention-focused strategies.
+- Mobile devices dominate transaction volume, highlighting the importance of optimizing mobile user experience.
+- Delivery times exceeding a certain threshold are associated with lower customer ratings, suggesting the need for logistics optimization.
 
 
 ---
