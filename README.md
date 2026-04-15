@@ -391,16 +391,6 @@ Revenue is aggregated by order date.
 ---
 
 
-View: v_daily_revenue
-
-This view provides a reusable daily revenue dataset for dashboards and scheduled reports.
-
-It acts as a reporting-ready abstraction over the clean table.
-
-
----
-
-
 ## 5. Customer Segmentation by Total Spending
 
 ### Business question
@@ -466,6 +456,13 @@ This view provides high-level business KPIs:
 - average order value.
 
 The view is designed to serve as a lightweight data source for executive dashboards and management reporting.
+
+
+### View: v_daily_revenue
+
+This view provides a reusable daily revenue dataset for dashboards and scheduled reports.
+
+It acts as a reporting-ready abstraction over the clean table.
 
 
 ---
