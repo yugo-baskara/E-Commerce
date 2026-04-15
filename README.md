@@ -445,6 +445,17 @@ This supports merchandising and inventory strategy.
 ---
 
 
+## Key Business Insights ⭐
+
+- Revenue peak terjadi pada bulan X → kemungkinan dipengaruhi campaign
+- Returning customer memiliki AOV lebih tinggi → fokus retention
+- Mobile mendominasi transaksi → optimasi mobile UX penting
+- Delivery time > X hari menurunkan rating → perlu optimasi logistik
+
+
+
+---
+
 ## Executive Reporting Layer
 
 ### View: v_kpi_summary
